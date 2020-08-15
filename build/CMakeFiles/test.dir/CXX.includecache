@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kawaii/Desktop/Sylar/sylar/log.h
+string
+-
+vector
+-
+utility
+-
+stdint.h
+-
+memory
+-
+list
+-
+sstream
+-
+fstream
+-
+iostream
+-
+map
+-
+functional
+-
+
+/home/kawaii/Desktop/Sylar/tests/test.cc
+iostream
+-
+../sylar/log.h
+/home/kawaii/Desktop/Sylar/sylar/log.h
+

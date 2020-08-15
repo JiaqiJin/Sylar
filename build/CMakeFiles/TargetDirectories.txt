@@ -1,0 +1,4 @@
+/home/kawaii/Desktop/Sylar/build/CMakeFiles/rebuild_cache.dir
+/home/kawaii/Desktop/Sylar/build/CMakeFiles/edit_cache.dir
+/home/kawaii/Desktop/Sylar/build/CMakeFiles/test.dir
+/home/kawaii/Desktop/Sylar/build/CMakeFiles/sylar.dir

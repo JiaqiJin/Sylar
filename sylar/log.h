@@ -88,7 +88,7 @@ class LogAppender
 {
 public: 
     typedef std::shared_ptr<LogAppender> ptr;
-    virtual ~LogAppender();
+    virtual ~LogAppender() = default;
 
     virtual void log(std::shared_ptr<Logger> logger,LogLevel::Level level,LogEvent::ptr event) = 0;
 
@@ -127,7 +127,7 @@ private:
 };
 
 //Log
-class Logger
+class Logger : public std::enable_shared_from_this<Logger>
 {
 public:
     typedef std::shared_ptr<Logger> ptr;
