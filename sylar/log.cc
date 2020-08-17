@@ -3,6 +3,18 @@
 namespace sylar
 {
 
+LogEvent::LogEvent(const char* file, int32_t line, uint32_t elapse, 
+            uint32_t thread_id, uint32_t fiber_id, uint64_t time)
+    :m_file(file)
+    ,m_line(line)
+    ,m_elapse(elapse)
+    ,m_threadId(thread_id)
+    ,m_fiberId(fiber_id)
+    ,m_time(time)
+{
+
+}
+
 const char* LogLevel::ToString(LogLevel::Level level) 
 {
     switch(level) {
@@ -25,12 +37,17 @@ const char* LogLevel::ToString(LogLevel::Level level)
 
 //////////////////////// LOGGER //////////////////////////////////////
 Logger::Logger(const std::string& name)
+    :m_name(name) , m_level(LogLevel::DEBUG)
 {
-
+    m_formatter.reset(new LogFormatter("%d [%p] <%f:%l> %m %n"));
 }
 
 void Logger::addAppender(LogAppender::ptr appender)
 {
+    if(!appender->getFormatter())
+    {
+        appender->setFormatter(m_formatter);
+    }
     m_appenders.push_back(appender);
 }
 
@@ -90,7 +107,7 @@ void Logger::fatal(LogEvent::ptr event)
 LogFormatter::LogFormatter(const std::string& _pattern)
 :m_pattern(_pattern)
 {
-
+    init();
 }
 
 
@@ -312,7 +329,7 @@ void LogFormatter::init()
             }
         }
 
-        //std::cout << "(" << std::get<0>(i) << ") - (" << std::get<1>(i) << ") - (" << std::get<2>(i) << ")" << std::endl;
+        std::cout << "(" << std::get<0>(i) << ") - (" << std::get<1>(i) << ") - (" << std::get<2>(i) << ")" << std::endl;
     }
     //std::cout << m_items.size() << std::endl;
 }
