@@ -13,38 +13,42 @@
 #include<map>
 #include<functional>
 
+#define SYLAR_LOG_LEVEL(logger, level) \
+    if(logger->getLevel() <= level) \
+        sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, \
+                        __FILE__, __LINE__, 0, sylar::GetThreadId(),\
+                sylar::GetFiberId(), time(0), sylar::Thread::GetName()))).getSS()
+
+/**
+ * @brief 使用流式方式将日志级别debug的日志写入到logger
+ */
+#define SYLAR_LOG_DEBUG(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::DEBUG)
+
+/**
+ * @brief 使用流式方式将日志级别info的日志写入到logger
+ */
+#define SYLAR_LOG_INFO(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::INFO)
+
+/**
+ * @brief 使用流式方式将日志级别warn的日志写入到logger
+ */
+#define SYLAR_LOG_WARN(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::WARN)
+
+/**
+ * @brief 使用流式方式将日志级别error的日志写入到logger
+ */
+#define SYLAR_LOG_ERROR(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::ERROR)
+
+/**
+ * @brief 使用流式方式将日志级别fatal的日志写入到logger
+ */
+#define SYLAR_LOG_FATAL(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::FATAL)
+
+
 namespace sylar
 {
 
 class Logger;
-
-//LOG EVENT
-class LogEvent
-{
-public:
-    typedef std::shared_ptr<LogEvent> ptr;
-    LogEvent(const char* file, int32_t line, uint32_t elapse, 
-            uint32_t thread_id, uint32_t fiber_id, uint64_t time);
-
-    const char* getFile() const {return m_file;}
-    int32_t getLine() const {return m_line;}
-    uint32_t getElapse() const { return m_elapse;}
-    uint32_t getThreadID() const { return m_threadId;}
-    uint32_t getFiberID() const { return m_fiberId;}
-    uint64_t getTime() const { return m_time; }
-    const std::string getContent() const { return m_ss.str(); }
-    std::stringstream& getSS() { return m_ss;}
-
-private: 
-    const char* m_file = nullptr; // file name
-    int32_t m_line = 0;           // line
-    uint32_t m_elapse = 0;        //program start to end millic second
-    uint32_t m_threadId = 0;      // thread id
-    uint32_t m_fiberId = 0;       //fiber id
-    uint64_t m_time;              //timer
-    std::stringstream m_ss;        
-};
-
 //LOG LEVEL
 class LogLevel
 {
@@ -59,6 +63,49 @@ public:
     };
 
     static const char* ToString(LogLevel::Level level);
+};
+
+//LOG EVENT
+class LogEvent
+{
+public:
+    typedef std::shared_ptr<LogEvent> ptr;
+    LogEvent(std::shared_ptr<Logger>logger, LogLevel::Level level, char* file, int32_t line, uint32_t elapse, 
+            uint32_t thread_id, uint32_t fiber_id, uint64_t time);
+    const char* getFile() const {return m_file;}
+    int32_t getLine() const {return m_line;}
+    uint32_t getElapse() const { return m_elapse;}
+    uint32_t getThreadID() const { return m_threadId;}
+    uint32_t getFiberID() const { return m_fiberId;}
+    uint64_t getTime() const { return m_time; }
+    const std::string getContent() const { return m_ss.str(); }
+    std::shared_ptr<Logger> getLogger() const { return m_logger; }
+    LogLevel::Level getLevel() const { return m_level; }
+
+    std::stringstream& getSS() { return m_ss;}
+    void format(const char* fmt, ....);
+private: 
+    const char* m_file = nullptr; // file name
+    int32_t m_line = 0;           // line
+    uint32_t m_elapse = 0;        //program start to end millic second
+    uint32_t m_threadId = 0;      // thread id
+    uint32_t m_fiberId = 0;       //fiber id
+    uint64_t m_time;              //timer
+    std::stringstream m_ss;        
+
+    std::shared_ptr<Logger> m_logger;
+    LogLevel::Level m_level;
+};
+
+class LogEventWrap
+{
+public:
+    LogEventWrap(LogEvent::ptr e);
+    ~LogEventWrap();
+
+    std::stringstream& getSS();
+private:
+    LogEvent::ptr m_event;
 };
 
 //Format for log
