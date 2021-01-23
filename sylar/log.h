@@ -13,11 +13,16 @@
 #include<map>
 #include<functional>
 
+#include "util.h"
+
+/**
+ * @brief 使用流式方式将日志级别level的日志写入到logger
+ */
 #define SYLAR_LOG_LEVEL(logger, level) \
     if(logger->getLevel() <= level) \
         sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, \
                         __FILE__, __LINE__, 0, sylar::GetThreadId(),\
-                sylar::GetFiberId(), time(0), sylar::Thread::GetName()))).getSS()
+                sylar::GetFiberId(), time(0)))).getSS()
 
 /**
  * @brief 使用流式方式将日志级别debug的日志写入到logger
@@ -43,6 +48,41 @@
  * @brief 使用流式方式将日志级别fatal的日志写入到logger
  */
 #define SYLAR_LOG_FATAL(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::FATAL)
+
+/**
+ * @brief 使用格式化方式将日志级别level的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_LEVEL(logger, level, fmt, ...) \
+    if(logger->getLevel() <= level) \
+        sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, \
+                        __FILE__, __LINE__, 0, sylar::GetThreadId(),\
+                sylar::GetFiberId(), time(0), sylar::Thread::GetName()))).getEvent()->format(fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别debug的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_DEBUG(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::DEBUG, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别info的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_INFO(logger, fmt, ...)  SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::INFO, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别warn的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_WARN(logger, fmt, ...)  SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::WARN, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别error的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_ERROR(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::ERROR, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别fatal的日志写入到logger
+ */
+#define SYLAR_LOG_FMT_FATAL(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::FATAL, fmt, __VA_ARGS__)
+
 
 
 namespace sylar
@@ -83,7 +123,8 @@ public:
     LogLevel::Level getLevel() const { return m_level; }
 
     std::stringstream& getSS() { return m_ss;}
-    void format(const char* fmt, ....);
+    void format(const char* fmt, ...);
+    void format(const char* fmt, va_list al);
 private: 
     const char* m_file = nullptr; // file name
     int32_t m_line = 0;           // line
@@ -204,6 +245,21 @@ private:
     std::list<LogAppender::ptr> m_appenders; //Appender list
     LogFormatter::ptr m_formatter;
 };
+
+class LoggerManager
+{
+public:
+    LoggerManager();
+    Logger::ptr getLogger(const std::string& name);
+
+    void init();
+
+private:
+    std::map<std::string, Logger::ptr> m_loggers;
+    Logger::ptr root;
+};
+
+//typedef sylar::Singleton<LoggerManager> LoggerMgr;
 
 } // end namespace
 

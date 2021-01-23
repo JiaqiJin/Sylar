@@ -16,6 +16,24 @@ LogEvent::LogEvent(std::shared_ptr<Logger>logger, LogLevel::Level level,
     ,m_level(level)
 {}
 
+void LogEvent::format(const char* fmt, ...)
+{
+     va_list al;
+    va_start(al, fmt);
+    format(fmt, al);
+    va_end(al);
+}
+
+void LogEvent::format(const char* fmt, va_list al)
+{
+    char* buf = nullptr;
+    int len = vasprintf(&buf, fmt, al);
+    if(len != -1) {
+        m_ss << std::string(buf, len);
+        free(buf);
+    }
+}
+
 ////////////////////// LogEven Wrap//////////////////////
 LogEventWrap::LogEventWrap(LogEvent::ptr e)
     :m_event(e)
