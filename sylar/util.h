@@ -21,10 +21,8 @@ namespace sylar
     */
     pid_t GetThreadId();
 
-    uint32_t GetFiberId()
-    {
-        return 0;
-    }
+    uint32_t GetFiberId();
+
 
 } // namespace name
 
