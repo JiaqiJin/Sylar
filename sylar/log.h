@@ -11,6 +11,7 @@
 #include <stdarg.h>
 #include <map>
 #include "util.h"
+#include "singleton.h"
 
 #define SYLAR_LOG_LEVEL(logger, level) \
     if(logger->getLevel() <= level) \
@@ -200,6 +201,7 @@ private:
     Logger::ptr m_root;
 };
 
+typedef sylar::Singleton<LoggerManager> LoggerMgr;
 
 }
 
