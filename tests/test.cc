@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
     sylar::Logger::ptr logger(new sylar::Logger);
-    logger->addAppender(sylar::LogAppender::ptr(new sylar::StdOutLogAppender));
+    logger->addAppender(sylar::LogAppender::ptr(new sylar::StdoutLogAppender));
 
     sylar::FileLogAppender::ptr file_appender(new sylar::FileLogAppender("./log.txt"));
 
