@@ -110,8 +110,8 @@ public:
         }
         return std::dynamic_pointer_cast<ConfigVar<T> >(it->second);
     }
-    void LoadFromYaml(const YAML::Node& root);
-    ConfigVarBase::ptr LookupBase(const std::string& name);
+    static void LoadFromYaml(const YAML::Node& root);
+    static ConfigVarBase::ptr LookupBase(const std::string& name);
 private:
     static ConfigVarMap s_datas;
 };

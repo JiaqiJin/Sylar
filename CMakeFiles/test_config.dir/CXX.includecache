@@ -91,12 +91,12 @@ boost/lexical_cast.hpp
 /home/sam/Documents/Sylar/tests/test_config.cc
 iostream
 -
-../sylar/log.h
-/home/sam/Documents/Sylar/sylar/log.h
-../sylar/config.h
-/home/sam/Documents/Sylar/sylar/config.h
 yaml-cpp/yaml.h
 -
+../sylar/config.h
+/home/sam/Documents/Sylar/sylar/config.h
+../sylar/log.h
+/home/sam/Documents/Sylar/sylar/log.h
 
 /home/sam/Documents/app/yaml-cpp/include/yaml-cpp/binary.h
 string
