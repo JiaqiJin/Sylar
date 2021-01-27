@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/jin/Documentos/Sylar/sylar/config.cc
+/home/sam/Documents/Sylar/sylar/config.cc
 config.h
-/home/jin/Documentos/Sylar/sylar/config.h
+/home/sam/Documents/Sylar/sylar/config.h
 
-/home/jin/Documentos/Sylar/sylar/config.h
+/home/sam/Documents/Sylar/sylar/config.h
 memory
 -
 string
@@ -34,9 +34,23 @@ unordered_set
 functional
 -
 log.h
-/home/jin/Documentos/Sylar/sylar/log.h
+/home/sam/Documents/Sylar/sylar/log.h
 
-/home/jin/Documentos/Sylar/sylar/log.h
+/home/sam/Documents/Sylar/sylar/log.cc
+log.h
+/home/sam/Documents/Sylar/sylar/log.h
+map
+-
+iostream
+-
+functional
+-
+time.h
+-
+string.h
+-
+
+/home/sam/Documents/Sylar/sylar/log.h
 string
 -
 stdint.h
@@ -56,13 +70,17 @@ stdarg.h
 map
 -
 util.h
-/home/jin/Documentos/Sylar/sylar/util.h
+/home/sam/Documents/Sylar/sylar/util.h
 singleton.h
-/home/jin/Documentos/Sylar/sylar/singleton.h
+/home/sam/Documents/Sylar/sylar/singleton.h
 
-/home/jin/Documentos/Sylar/sylar/singleton.h
+/home/sam/Documents/Sylar/sylar/singleton.h
 
-/home/jin/Documentos/Sylar/sylar/util.h
+/home/sam/Documents/Sylar/sylar/util.cc
+util.h
+/home/sam/Documents/Sylar/sylar/util.h
+
+/home/sam/Documents/Sylar/sylar/util.h
 cxxabi.h
 -
 pthread.h

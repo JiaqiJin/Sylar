@@ -1,4 +1,4 @@
-# Install script for directory: /home/jin/Documentos/Sylar
+# Install script for directory: /home/sam/Documents/Sylar
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jin/Documentos/Sylar/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/sam/Documents/Sylar/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

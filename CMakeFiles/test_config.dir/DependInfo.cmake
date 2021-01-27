@@ -4,17 +4,19 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jin/Documentos/Sylar/tests/test_config.cc" "/home/jin/Documentos/Sylar/CMakeFiles/test_config.dir/tests/test_config.cc.o"
+  "/home/sam/Documents/Sylar/tests/test_config.cc" "/home/sam/Documents/Sylar/CMakeFiles/test_config.dir/tests/test_config.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "."
+  "/home/sam/Documents/app/yaml-cpp/include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/jin/Documentos/Sylar/CMakeFiles/sylar.dir/DependInfo.cmake"
+  "/home/sam/Documents/Sylar/CMakeFiles/sylar.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/jin/Documentos/Sylar/sylar/log.h
+/home/sam/Documents/Sylar/sylar/log.h
 string
 -
 stdint.h
@@ -26,13 +26,13 @@ stdarg.h
 map
 -
 util.h
-/home/jin/Documentos/Sylar/sylar/util.h
+/home/sam/Documents/Sylar/sylar/util.h
 singleton.h
-/home/jin/Documentos/Sylar/sylar/singleton.h
+/home/sam/Documents/Sylar/sylar/singleton.h
 
-/home/jin/Documentos/Sylar/sylar/singleton.h
+/home/sam/Documents/Sylar/sylar/singleton.h
 
-/home/jin/Documentos/Sylar/sylar/util.h
+/home/sam/Documents/Sylar/sylar/util.h
 cxxabi.h
 -
 pthread.h
@@ -58,9 +58,9 @@ iostream
 boost/lexical_cast.hpp
 -
 
-/home/jin/Documentos/Sylar/tests/test.cc
+/home/sam/Documents/Sylar/tests/test.cc
 iostream
 -
 ../sylar/log.h
-/home/jin/Documentos/Sylar/sylar/log.h
+/home/sam/Documents/Sylar/sylar/log.h
 
