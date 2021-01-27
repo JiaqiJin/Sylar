@@ -38,4 +38,5 @@ CMakeFiles/test_config.dir/tests/test_config.cc.o: /home/sam/Documents/app/yaml-
 CMakeFiles/test_config.dir/tests/test_config.cc.o: /home/sam/Documents/app/yaml-cpp/include/yaml-cpp/stlemitter.h
 CMakeFiles/test_config.dir/tests/test_config.cc.o: /home/sam/Documents/app/yaml-cpp/include/yaml-cpp/traits.h
 CMakeFiles/test_config.dir/tests/test_config.cc.o: /home/sam/Documents/app/yaml-cpp/include/yaml-cpp/yaml.h
+CMakeFiles/test_config.dir/tests/test_config.cc.o: sylar/log.h
 
