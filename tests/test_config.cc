@@ -3,12 +3,32 @@
 #include "../sylar/config.h"
 #include "../sylar/log.h"
 
-sylar::ConfigVar<int>::ptr g_int_value_config = 
-    sylar::Config::Lookup("system.port",(int)8080, "system port");
+sylar::ConfigVar<int>::ptr g_int_value_config =
+    sylar::Config::Lookup("system.port", (int)8080, "system port");
 
-sylar::ConfigVar<float>::ptr g_float_valuex_config =
+sylar::ConfigVar<float>::ptr g_int_valuex_config =
+    sylar::Config::Lookup("system.port", (float)8080, "system port");
+
+sylar::ConfigVar<float>::ptr g_float_value_config =
     sylar::Config::Lookup("system.value", (float)10.2f, "system value");
 
+sylar::ConfigVar<std::vector<int> >::ptr g_int_vec_value_config =
+    sylar::Config::Lookup("system.int_vec", std::vector<int>{1,2}, "system int vec");
+
+sylar::ConfigVar<std::list<int> >::ptr g_int_list_value_config =
+    sylar::Config::Lookup("system.int_list", std::list<int>{1,2}, "system int list");
+
+sylar::ConfigVar<std::set<int> >::ptr g_int_set_value_config =
+    sylar::Config::Lookup("system.int_set", std::set<int>{1,2}, "system int set");
+
+sylar::ConfigVar<std::unordered_set<int> >::ptr g_int_uset_value_config =
+    sylar::Config::Lookup("system.int_uset", std::unordered_set<int>{1,2}, "system int uset");
+
+sylar::ConfigVar<std::map<std::string, int> >::ptr g_str_int_map_value_config =
+    sylar::Config::Lookup("system.str_int_map", std::map<std::string, int>{{"k",2}}, "system str int map");
+
+sylar::ConfigVar<std::unordered_map<std::string, int> >::ptr g_str_int_umap_value_config =
+    sylar::Config::Lookup("system.str_int_umap", std::unordered_map<std::string, int>{{"k",2}}, "system str int map");
 
 void print_yaml(const YAML::Node& node, int level) {
     if(node.IsScalar()) {
@@ -45,13 +65,38 @@ void test_yaml() {
 
 void test_config() {
     SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "before "  << g_int_value_config->getValue();
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "before " << g_float_valuex_config->toString(); 
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "before " << g_float_value_config->toString(); 
+
+#define XX(g_var, name, prefix) \
+    { \
+        auto& v = g_var->getValue(); \
+        for(auto& i : v) { \
+            SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << #prefix " " #name ": " << i; \
+        } \
+        SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << #prefix " " #name " yaml: " << g_var->toString(); \
+    }
+
+    XX(g_int_vec_value_config, int_vec, before);
+    XX(g_int_list_value_config, int_list, before);
+    XX(g_int_set_value_config, int_set, before);
+    XX(g_int_uset_value_config, int_uset, before);
+    
 
     YAML::Node root = YAML::LoadFile("/home/sam/Documents/Sylar/bin/conf/log.yml");
     sylar::Config::LoadFromYaml(root);
 
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after " << g_int_value_config->getValue();
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after"  << g_float_valuex_config->toString(); 
+    for(auto& i : g_int_vec_value_config->getValue())
+    {
+        SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "int vec" << i << " after";
+    }
+
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after: " << g_int_value_config->getValue();
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after: " << g_float_value_config->toString();
+
+    XX(g_int_vec_value_config, int_vec, after);
+    XX(g_int_list_value_config, int_list, after);
+    XX(g_int_set_value_config, int_set, after);
+    XX(g_int_uset_value_config, int_uset, after);
 }
 
 int main(int argc, char** argv) 
