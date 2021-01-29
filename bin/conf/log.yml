@@ -35,3 +35,18 @@ system:
     str_int_vec_umap:
         x: [10,20,30]
         k: [30,40,10]
+
+class:
+    person:
+        name: sylar
+        age: 31
+        sex: true
+    map:
+      sylar1:
+          name: sylar01
+          age: 18
+          sex: false
+      sylar2:
+          name: sylar02
+          age: 40
+          sex: true
