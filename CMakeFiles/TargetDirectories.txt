@@ -1,5 +1,6 @@
 /home/sam/Documents/Sylar/CMakeFiles/rebuild_cache.dir
 /home/sam/Documents/Sylar/CMakeFiles/test_config.dir
 /home/sam/Documents/Sylar/CMakeFiles/edit_cache.dir
+/home/sam/Documents/Sylar/CMakeFiles/test_thread.dir
 /home/sam/Documents/Sylar/CMakeFiles/test.dir
 /home/sam/Documents/Sylar/CMakeFiles/sylar.dir

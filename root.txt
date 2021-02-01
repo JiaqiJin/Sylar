@@ -1,4 +1,0 @@
-2021-01-29 11:43:44	old_value=[Person name= age=0 sex=0] new_value=[Person name=sylar age=31 sex=1]
-2021-01-29 11:43:44	class.map after: sylar1 - [Person name=sylar01 age=18 sex=0]
-2021-01-29 11:43:44	class.map after: sylar2 - [Person name=sylar02 age=40 sex=1]
-2021-01-29 11:43:44	class.map after: size=2

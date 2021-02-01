@@ -8,5 +8,5 @@ CXX_INCLUDES = -I/home/sam/Documents/Sylar/. -I/home/sam/Documents/app/yaml-cpp/
 
 CXX_FLAGS =  -rdynamic -O0 -ggdb -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined
 
-# Custom defines: CMakeFiles/test.dir/tests/test.cc.o_DEFINES = __FILE__="tests/test.cc"
+# Custom defines: CMakeFiles/test_thread.dir/tests/test_thread.cc.o_DEFINES = __FILE__="tests/test_thread.cc"
 

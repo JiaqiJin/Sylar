@@ -78,6 +78,12 @@ CMakeFiles/sylar.dir/sylar/log.cc.o: /home/sam/Documents/app/yaml-cpp/include/ya
 CMakeFiles/sylar.dir/sylar/log.cc.o: /home/sam/Documents/app/yaml-cpp/include/yaml-cpp/yaml.h
 CMakeFiles/sylar.dir/sylar/log.cc.o: sylar/log.h
 
+CMakeFiles/sylar.dir/sylar/thread.cc.o: sylar/log.h
+CMakeFiles/sylar.dir/sylar/thread.cc.o: sylar/singleton.h
+CMakeFiles/sylar.dir/sylar/thread.cc.o: sylar/thread.cc
+CMakeFiles/sylar.dir/sylar/thread.cc.o: sylar/thread.h
+CMakeFiles/sylar.dir/sylar/thread.cc.o: sylar/util.h
+
 CMakeFiles/sylar.dir/sylar/util.cc.o: sylar/util.cc
 CMakeFiles/sylar.dir/sylar/util.cc.o: sylar/util.h
 

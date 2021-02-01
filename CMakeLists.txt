@@ -8,26 +8,47 @@ set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -O0 -ggdb -std=c++11 -Wall -Wno-de
 
 include_directories(.)
 include_directories(/home/sam/Documents/app/yaml-cpp/include)
-
-find_library(YAMLCPP libyaml-cpp.a)
+link_directories(/home/sam/Documents/Sylar/lib)
 
 set(LIB_SRC
     sylar/log.cc
     sylar/util.cc
     sylar/config.cc
+    sylar/thread.cc
     )
 
 add_library(sylar SHARED ${LIB_SRC})
+force_redefine_file_macro_for_sources(sylar) #__FILE__
 #add_library(sylar_static STATIC ${LIB_SRC})
 #SET_TARGET_PROPERTIES (sylar_static PROPERTIES OUTPUT_NAME "sylar")
 
+find_library(YAMLCPP libyaml-cpp.a)
+find_library(PTHREAD pthread)
+#set(LIBS ${LIBS} sylar)
+#set(LIBS ${LIBS} ${YAMLCPP})
+#set(LIBS ${LIBS} ${PTHREAD})
+
+set(LIBS
+        sylar
+        pthread
+        yaml-cpp)
+
+#message("***", ${LIBS})
+
 add_executable(test tests/test.cc)
 add_dependencies(test sylar)
-target_link_libraries(test sylar -L/home/sam/Documents/app/yaml-cpp/ -lyaml-cpp)
+force_redefine_file_macro_for_sources(test) #__FILE__
+target_link_libraries(test ${LIBS})
 
 add_executable(test_config tests/test_config.cc)
 add_dependencies(test_config sylar)
-target_link_libraries(test_config sylar -L/home/sam/Documents/app/yaml-cpp/ -lyaml-cpp)
+force_redefine_file_macro_for_sources(test_config) #__FILE__
+target_link_libraries(test_config ${LIBS})
+
+add_executable(test_thread tests/test_thread.cc)
+add_dependencies(test_thread sylar)
+force_redefine_file_macro_for_sources(test_thread) #__FILE__
+target_link_libraries(test_thread ${LIBS})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
