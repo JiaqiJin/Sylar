@@ -57,6 +57,8 @@ util.h
 /home/sam/Documents/Sylar/sylar/util.h
 singleton.h
 /home/sam/Documents/Sylar/sylar/singleton.h
+thread.h
+/home/sam/Documents/Sylar/sylar/thread.h
 
 /home/sam/Documents/Sylar/sylar/singleton.h
 
@@ -469,4 +471,6 @@ util.h
 sylar/util.h
 singleton.h
 sylar/singleton.h
+thread.h
+sylar/thread.h
 
