@@ -49,6 +49,10 @@ memory
 -
 pthread.h
 -
+semaphore.h
+-
+stdint.h
+-
 
 /home/sam/Documents/Sylar/sylar/util.h
 cxxabi.h
