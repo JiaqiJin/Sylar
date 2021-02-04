@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdint.h>
+#include <atomic>
 
 namespace sylar {
    
@@ -211,6 +212,26 @@ public:
     }
 private:
     pthread_spinlock_t m_mutex;
+};
+
+class CASLock{
+public:
+    typedef ScopedLockImpl<CASLock> Lock;
+     CASLock() {
+        m_mutex.clear();
+    }
+    ~CASLock() {
+    }
+
+    void lock(){
+        while(std::atomic_flag_test_and_set_explicit(&m_mutex, std::memory_order_acquire));
+    }
+
+    void unlock(){
+        std::atomic_flag_clear_explicit(&m_mutex, std::memory_order_release);
+    }
+private:
+    volatile std::atomic_flag m_mutex;
 };
 
 class Thread {

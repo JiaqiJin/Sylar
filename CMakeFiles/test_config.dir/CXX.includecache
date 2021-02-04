@@ -75,6 +75,8 @@ semaphore.h
 -
 stdint.h
 -
+atomic
+-
 
 /home/sam/Documents/Sylar/sylar/util.h
 cxxabi.h

@@ -48,5 +48,6 @@ int main(int argc, char** argv) {
 
     SYLAR_LOG_INFO(p_logger) << "pthread end";
     SYLAR_LOG_INFO(p_logger) << "count==" << count;
+
     return 0;
 }
