@@ -87,5 +87,8 @@ CMakeFiles/sylar.dir/sylar/thread.cc.o
  /home/sam/Documents/Sylar/sylar/thread.h
  /home/sam/Documents/Sylar/sylar/util.h
 CMakeFiles/sylar.dir/sylar/util.cc.o
+ /home/sam/Documents/Sylar/sylar/log.h
+ /home/sam/Documents/Sylar/sylar/singleton.h
+ /home/sam/Documents/Sylar/sylar/thread.h
  /home/sam/Documents/Sylar/sylar/util.cc
  /home/sam/Documents/Sylar/sylar/util.h
