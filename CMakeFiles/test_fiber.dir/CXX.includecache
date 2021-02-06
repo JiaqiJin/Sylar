@@ -138,7 +138,7 @@ iostream
 boost/lexical_cast.hpp
 -
 
-/home/sam/Documents/Sylar/tests/test_util.cc
+/home/sam/Documents/Sylar/tests/test_fiber.cc
 ../sylar/sylar.h
 /home/sam/Documents/Sylar/sylar/sylar.h
 

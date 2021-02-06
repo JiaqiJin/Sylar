@@ -3,6 +3,7 @@
 
 CMakeFiles/test_util.dir/tests/test_util.cc.o
  /home/sam/Documents/Sylar/sylar/config.h
+ /home/sam/Documents/Sylar/sylar/fiber.h
  /home/sam/Documents/Sylar/sylar/log.h
  /home/sam/Documents/Sylar/sylar/macro.h
  /home/sam/Documents/Sylar/sylar/singleton.h
