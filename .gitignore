@@ -29,5 +29,6 @@ stamp-h1
 depcomp
 *.xcodeproj
 CMakeCache.txt
+CMakeFiles/*
 system.txt
 root.txt

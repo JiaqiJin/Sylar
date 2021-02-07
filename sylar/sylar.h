@@ -10,3 +10,10 @@
 #include "fiber.h"
 
 #endif
+
+/*
+git for-each-ref
+rm -rf .git/refs/remotes/origin
+git branch --set-upstream-to=origin/master master
+git pull
+*/
