@@ -16,6 +16,7 @@ set(LIB_SRC
     sylar/config.cc
     sylar/thread.cc
     sylar/fiber.cc
+    sylar/scheduler.cc
     )
 
 add_library(sylar SHARED ${LIB_SRC})

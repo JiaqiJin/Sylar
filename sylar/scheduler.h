@@ -59,10 +59,10 @@ protected:
 private:
     template<class FiberOrCb>
     bool scheduleNoLock(FiberOrCb fc, int thread){
-        bool need_tickle = m_fiber.empty();
+        bool need_tickle = m_fibers.empty();
         FiberAndThread ft(fc, thread);
         if(ft.fiber || ft.cb){
-            m_fiber.push_back(ft);
+            m_fibers.push_back(ft);
         }
         return need_tickle;
     }
