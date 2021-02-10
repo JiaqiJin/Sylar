@@ -26,6 +26,16 @@ node.IsScalar()
 
 ## Coroutine scheduling module
 
+```
+        1 - N       1 - M 
+scheduler --> thread --> fiber
+
+m_threads
+<function<void()>, fiber, thread> m_fiber
+
+scheduler(func/fiber)
+```
+
 ## IO coroutine scheduling module
 
 ## Hook module
