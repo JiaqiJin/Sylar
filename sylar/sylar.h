@@ -8,6 +8,7 @@
 #include "util.h"
 #include "singleton.h"
 #include "fiber.h"
+#include "scheduler.h"
 
 #endif
 
