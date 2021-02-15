@@ -59,7 +59,7 @@ void Scheduler::start() {
     for(size_t i = 0; i < m_threadCount; ++i) {
         m_threads[i].reset(new Thread(std::bind(&Scheduler::run, this)
                             , m_name + "_" + std::to_string(i)));
-        m_threadIds.push_back(m_threads[i]->getID());
+        m_threadIds.push_back(m_threads[i]->getId());
     }
     lock.unlock();
 

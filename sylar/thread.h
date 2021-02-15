@@ -9,9 +9,11 @@
 #include <stdint.h>
 #include <atomic>
 
+//pthread_xxx
+//std::thread, pthread
 namespace sylar {
-   
-class Semaphore{
+
+class Semaphore {
 public:
     Semaphore(uint32_t count = 0);
     ~Semaphore();
@@ -119,7 +121,7 @@ private:
     bool m_locked;
 };
 
-class Mutex{
+class Mutex {
 public:
     typedef ScopedLockImpl<Mutex> Lock;
     Mutex() {
@@ -150,11 +152,11 @@ public:
     void unlock() {}
 };
 
-class RWMutex{
+class RWMutex {
 public:
     typedef ReadScopedLockImpl<RWMutex> ReadLock;
     typedef WriteScopedLockImpl<RWMutex> WriteLock;
-    
+
     RWMutex() {
         pthread_rwlock_init(&m_lock, nullptr);
     }
@@ -191,7 +193,6 @@ public:
     void unlock() {}
 };
 
-
 class Spinlock {
 public:
     typedef ScopedLockImpl<Spinlock> Lock;
@@ -214,20 +215,20 @@ private:
     pthread_spinlock_t m_mutex;
 };
 
-class CASLock{
+class CASLock {
 public:
     typedef ScopedLockImpl<CASLock> Lock;
-     CASLock() {
+    CASLock() {
         m_mutex.clear();
     }
     ~CASLock() {
     }
 
-    void lock(){
+    void lock() {
         while(std::atomic_flag_test_and_set_explicit(&m_mutex, std::memory_order_acquire));
     }
 
-    void unlock(){
+    void unlock() {
         std::atomic_flag_clear_explicit(&m_mutex, std::memory_order_release);
     }
 private:
@@ -240,8 +241,8 @@ public:
     Thread(std::function<void()> cb, const std::string& name);
     ~Thread();
 
-    const pid_t getID() { return m_id; }
-    const std::string& getName() const { return m_name; }
+    pid_t getId() const { return m_id;}
+    const std::string& getName() const { return m_name;}
 
     void join();
 
@@ -253,7 +254,7 @@ private:
     Thread(const Thread&&) = delete;
     Thread& operator=(const Thread&) = delete;
 
-    static void* run(void* args);
+    static void* run(void* arg);
 private:
     pid_t m_id = -1;
     pthread_t m_thread = 0;
@@ -261,10 +262,8 @@ private:
     std::string m_name;
 
     Semaphore m_semaphore;
-}; 
+};
 
-} // namespace name
-
-
+}
 
 #endif

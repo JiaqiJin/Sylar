@@ -10,7 +10,7 @@ void func1(){
     SYLAR_LOG_INFO(p_logger) << "name: " << sylar::Thread::GetName()
                              << " this.name: " << sylar::Thread::GetThis()->getName()
                              << " id: " << sylar::GetThreadId()
-                             << " this.id: " << sylar::Thread::GetThis()->getID();
+                             << " this.id: " << sylar::Thread::GetThis()->getId();
     //sleep(20);
    for(int i = 0; i < 100000; ++i) {
         sylar::Mutex::Lock lock_(m_mutex);
