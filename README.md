@@ -36,6 +36,14 @@ m_threads
 scheduler(func/fiber)
 ```
 
+```
+IO Manager(epoll)--> Scheduler
+        |
+        |
+        v
+        idle(epoll_wait)
+```
+
 ## IO coroutine scheduling module
 
 ## Hook module
