@@ -264,4 +264,103 @@ IOManager* IOManager::GetThis() {
     return dynamic_cast<IOManager*>(Scheduler::GetThis());
 }
 
+void IOManager::tickle() {
+     if(hasIdleThreads()) {
+        return;
+    }
+    int rt = write(m_tickleFds[1], "T", 1);
+    SYLAR_ASSERT(rt == 1);
+}
+
+bool IOManager::stopping() {
+    return Scheduler::stopping() 
+        && m_pendingEventCount == 0;
+}
+
+void IOManager::idle() {
+    epoll_event* events = new epoll_event[64]();
+    std::shared_ptr<epoll_event> shared_events(events, [](epoll_event* ptr){
+        delete[] ptr;
+    });
+
+   while(true) {
+       uint64_t next_timeout = 0;
+       if(stopping()) {
+            SYLAR_LOG_INFO(g_logger) << "name=" << getName()
+                                     << " idle stopping exit";
+            break;
+        }
+
+        int rt = 0;
+        do {
+            static const int MAX_TIMEOUT = 3000;
+            if(next_timeout != ~0ull) {
+                next_timeout = (int)next_timeout > MAX_TIMEOUT
+                                ? MAX_TIMEOUT : next_timeout;
+            } else {
+                next_timeout = MAX_TIMEOUT;
+            }
+            rt = epoll_wait(m_epfd, events, 64, (int)next_timeout);
+            if(rt < 0 && errno == EINTR) {
+            } else {
+                break;
+            }
+        } while (true);
+        
+        for(int i = 0; i<rt; ++i) {
+            epoll_event& event = events[i];
+            if(events->data.fd == m_tickleFds[0]) {// messages send in outside
+                uint8_t dummy;
+                while(read(m_tickleFds[0], &dummy, 1) == 1);
+                continue;
+            }
+
+            FdContext* fd_ctx = (FdContext*)event.data.ptr;
+            FdContext::MutexType::Lock lock(fd_ctx->mutex);
+            if(event.events & (EPOLLERR | EPOLLHUP)) {
+                event.events |= EPOLLIN | EPOLLOUT;
+            }
+            int real_events = NONE;
+            if(event.events & EPOLLIN) {
+                real_events |= READ;
+            }
+            if(event.events & EPOLLOUT) {
+                real_events |= WRITE;
+            }
+
+            if((fd_ctx->events & real_events) == NONE) {
+                continue;
+            }
+            // total event rest rest event
+            int left_events = (fd_ctx->events & ~real_events);
+            int op = left_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
+            event.events = EPOLLET | left_events;
+
+            int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
+            if(rt2) {
+                SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+                    << op << "," << fd_ctx->fd << "," << event.events << "):"
+                    << rt2 << " (" << errno << ") (" << strerror(errno) << ")";
+                continue;
+            }
+
+            if(real_events & READ) {
+                fd_ctx->triggerEvent(READ);
+                --m_pendingEventCount;
+            }
+            if(real_events & WRITE) {
+                fd_ctx->triggerEvent(WRITE);
+                --m_pendingEventCount;
+            }
+        }
+
+       Fiber::ptr cur = Fiber::GetThis();
+       auto raw_ptr = cur.get();
+       cur.reset();
+
+       raw_ptr->swapOut();
+   }
+    
+}
+
 } //endnamespace
