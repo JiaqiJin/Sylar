@@ -10,11 +10,11 @@
 
 namespace sylar {
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system"); 
+static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
 IOManager::FdContext::EventContext& IOManager::FdContext::getContext(IOManager::Event event) {
-    switch (event) {
-    case IOManager::READ:
+    switch(event) {
+        case IOManager::READ:
             return read;
         case IOManager::WRITE:
             return write;
@@ -67,7 +67,7 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
 }
 
 IOManager::~IOManager() {
-     stop();
+    stop();
     close(m_epfd);
     close(m_tickleFds[0]);
     close(m_tickleFds[1]);
@@ -90,21 +90,7 @@ void IOManager::contextResize(size_t size) {
     }
 }
 
-
-int IOManager::addEvent(int fd, Event event, std::function<void()> cb = nullptr) {
-    FdContext* fd_ctx = nullptr; 
-    RWMutexType::ReadLock lock(m_mutex);
-    if((int)m_fdContexts.size() > fd) {
-        fd_ctx = m_fdContexts[fd];
-        lock.unlock();
-    } else {
-        lock.unlock();
-        RWMutexType::WriteLock lock2(m_mutex);
-        contextResize(fd * 1.5);
-        fd_ctx = m_fdContexts[fd];
-    }
-
-    FdContext::MutexType::Lock lock2(fd_ctx->mutex);
+int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     FdContext* fd_ctx = nullptr;
     RWMutexType::ReadLock lock(m_mutex);
     if((int)m_fdContexts.size() > fd) {
@@ -164,7 +150,7 @@ bool IOManager::delEvent(int fd, Event event) {
     lock.unlock();
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if(!fd_ctx->events & event) {
+    if(!(fd_ctx->events & event)) {
         return false;
     }
 
@@ -265,7 +251,7 @@ IOManager* IOManager::GetThis() {
 }
 
 void IOManager::tickle() {
-     if(hasIdleThreads()) {
+    if(hasIdleThreads()) {
         return;
     }
     int rt = write(m_tickleFds[1], "T", 1);
@@ -273,7 +259,7 @@ void IOManager::tickle() {
 }
 
 bool IOManager::stopping() {
-    return Scheduler::stopping() 
+    return Scheduler::stopping()
         && m_pendingEventCount == 0;
 }
 
@@ -283,33 +269,25 @@ void IOManager::idle() {
         delete[] ptr;
     });
 
-   while(true) {
-       uint64_t next_timeout = 0;
-       if(stopping()) {
-            SYLAR_LOG_INFO(g_logger) << "name=" << getName()
-                                     << " idle stopping exit";
+    while(true) {
+        if(stopping()) {
+            SYLAR_LOG_INFO(g_logger) << "name=" << getName() << " idle stopping exit";
             break;
         }
 
         int rt = 0;
         do {
-            static const int MAX_TIMEOUT = 3000;
-            if(next_timeout != ~0ull) {
-                next_timeout = (int)next_timeout > MAX_TIMEOUT
-                                ? MAX_TIMEOUT : next_timeout;
-            } else {
-                next_timeout = MAX_TIMEOUT;
-            }
-            rt = epoll_wait(m_epfd, events, 64, (int)next_timeout);
+            static const int MAX_TIMEOUT = 5000;
+            rt = epoll_wait(m_epfd, events, 64, MAX_TIMEOUT);
             if(rt < 0 && errno == EINTR) {
             } else {
                 break;
             }
-        } while (true);
-        
-        for(int i = 0; i<rt; ++i) {
+        } while(true);
+
+        for(int i = 0; i < rt; ++i) {
             epoll_event& event = events[i];
-            if(events->data.fd == m_tickleFds[0]) {// messages send in outside
+            if(event.data.fd == m_tickleFds[0]) {
                 uint8_t dummy;
                 while(read(m_tickleFds[0], &dummy, 1) == 1);
                 continue;
@@ -331,7 +309,7 @@ void IOManager::idle() {
             if((fd_ctx->events & real_events) == NONE) {
                 continue;
             }
-            // total event rest rest event
+
             int left_events = (fd_ctx->events & ~real_events);
             int op = left_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
             event.events = EPOLLET | left_events;
@@ -354,13 +332,12 @@ void IOManager::idle() {
             }
         }
 
-       Fiber::ptr cur = Fiber::GetThis();
-       auto raw_ptr = cur.get();
-       cur.reset();
+        Fiber::ptr cur = Fiber::GetThis();
+        auto raw_ptr = cur.get();
+        cur.reset();
 
-       raw_ptr->swapOut();
-   }
-    
+        raw_ptr->swapOut();
+    }
 }
 
-} //endnamespace
+}

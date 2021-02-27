@@ -15,7 +15,6 @@ public:
         READ    = 0x1, //EPOLLIN
         WRITE   = 0x4, //EPOLLOUT
     };
-    
 private:
     struct FdContext {
         typedef Mutex MutexType;
@@ -24,8 +23,8 @@ private:
             Fiber::ptr fiber;               //事件协程
             std::function<void()> cb;       //事件的回调函数
         };
-        
-        EventContext &getContext(Event event); 
+
+        EventContext& getContext(Event event);
         void resetContext(EventContext& ctx);
         void triggerEvent(Event event);
 
@@ -35,7 +34,7 @@ private:
         Event events = NONE;    //已经注册的事件
         MutexType mutex;
     };
-    
+
 public:
     IOManager(size_t threads = 1, bool use_caller = true, const std::string& name = "");
     ~IOManager();
@@ -64,6 +63,6 @@ private:
     std::vector<FdContext*> m_fdContexts;
 };
 
-}// end namespace
+}
 
 #endif
